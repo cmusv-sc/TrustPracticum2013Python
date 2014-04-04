@@ -1,9 +1,14 @@
 #! /usr/bin/env python
+
+__version__='Sp2014'
+
 import pymongo
 import re
 import sys
 
 import config
+
+
 
 def strip_quotes(s):
   return re.sub('"','',s)
