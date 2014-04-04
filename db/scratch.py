@@ -1,6 +1,8 @@
 #! /usr/bin/env python
 """
 Takes dblp xml from stdin and pushes it to a mongodb
+Usage:
+cat dblp.xml | python -m db.scratch
 """
 __version__='Sp2014'
 
