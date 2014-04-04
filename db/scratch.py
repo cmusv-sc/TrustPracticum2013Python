@@ -1,5 +1,7 @@
 #! /usr/bin/env python
-
+"""
+Takes dblp xml from stdin and pushes it to a mongodb
+"""
 __version__='Sp2014'
 
 import pymongo
