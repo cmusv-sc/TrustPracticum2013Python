@@ -47,6 +47,16 @@ if __name__ == '__main__':
           for attr in tag_attributes:
             sub_doc[attr[0]] = strip_quotes(attr[1])
         elif len(groups) == 2:
-          doc[groups[0]] = strip_quotes(groups[1])
+          tag_name = groups[0]
+          tag_info = groups[1]
+          if tag_name in doc:
+            prev_info = doc[tag_name]
+            if isinstance(prev_info, list):
+              prev_info.append(tag_info)
+              doc[tag_name] = prev_info
+            else:
+              doc[tag_name] = [prev_info, tag_info]
+          else:
+            doc[tag_name] = strip_quotes(tag_info)
         else:
           print 'This should not happen'
