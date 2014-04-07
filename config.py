@@ -1,4 +1,5 @@
 DB_NAME = "dblp"
+COLLECTION_NAME = "documents"
 
 # Trust value Weights
  # Publication Weight
