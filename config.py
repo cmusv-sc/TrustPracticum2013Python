@@ -28,5 +28,5 @@ tRecent=0.5
 tIntermediate=0.3
 tOld=0.2
 
-#Mapping from types to alpha weights
+#Mapping from types to alpha weights. Should refactor later on.
 type2weights = {"article" : alphaArticle, "inproceedings" :alphaInProceeding, "proceedings" : alphaProceeding, "book" : alphaBook, "phdthesis" : alphaMasterThesis, "mastersthesis" :alphaPhdThesis, "www" : alphaWWW, "incollection" : alphaInCollection}
