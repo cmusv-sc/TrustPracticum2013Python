@@ -73,6 +73,7 @@ def _citation_factor(doc):
 
 def _social_coauthorship_factor(doc):
   """
+  REDO: This function doesn't do what it's supposed to do.
   Given a document, return the time factor. Passed into the map function and summed, the end goal becomes:
 
   Given an author, return SCF.
