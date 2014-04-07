@@ -22,15 +22,15 @@ if __name__ == '__main__':
   print config.DB_NAME
   doc = {}
   for line in sys.stdin:
-    start = re.match('<((article)|(inproceedings)|(proceedings)|(book)|(incollection)|(phdthesis)|(mastersthesis)|(www))',line)
-    end = re.match('</((article)|(inproceedings)|(proceedings)|(book)|(incollection)|(phdthesis)|(mastersthesis)|(www))',line)
+    start = re.search('<((article)|(inproceedings)|(proceedings)|(book)|(incollection)|(phdthesis)|(mastersthesis)|(www))',line)
+    end = re.search('</((article)|(inproceedings)|(proceedings)|(book)|(incollection)|(phdthesis)|(mastersthesis)|(www))',line)
     if start:
       doc['type'] =  strip_quotes(start.groups()[0])
       tag_attributes = re.findall(' (.+?)=(.+?)(?=[ >])',line)
       for attr in tag_attributes:
         doc[attr[0]] = strip_quotes(attr[1])
       #Sometimes, there's an extra tag on the same line.
-      extra_tag = re.match('.+?> <(.+?)>(.+?)</(.+?)>', line)
+      extra_tag = re.search('.+?> <(.+?)>(.+?)</(.+?)>', line)
       if extra_tag:
         groups = extra_tag.groups()
         doc[groups[0]] = strip_quotes(groups[1])
@@ -38,7 +38,7 @@ if __name__ == '__main__':
       db['documents'].insert(doc)
       doc = {}
     else:
-      element = re.match('<(.+?)>(.+?)</',line)
+      element = re.search('<(.+?)>(.+?)</',line)
       if element:
         tag_attributes = re.findall(' (.+?)=(.+?)(?=[ >])',line)
         groups = element.groups()
