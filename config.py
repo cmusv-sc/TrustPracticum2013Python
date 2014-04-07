@@ -27,3 +27,6 @@ intermediateYears=7
 tRecent=0.5
 tIntermediate=0.3
 tOld=0.2
+
+#Mapping from types to alpha weights
+type2weights = {"article" : alphaArticle, "inproceedings" :alphaInProceeding, "proceedings" : alphaProceeding, "book" : alphaBook, "phdthesis" : alphaMasterThesis, "mastersthesis" :alphaPhdThesis, "www" : alphaWWW, "incollection" : alphaInCollection}
