@@ -31,9 +31,8 @@ def _time_factor(date):
 
 def _authorship_details_map(col, primary_author, fun_handle):
   """
-  Map a function fun_handle over each document that primary_author authored.
+  Map a function fun_handle over each document that primary_author authored. 
   """
-  coauthors = {}
   return_vals = []
   for doc in col.find({'author': {"$in": [primary_author]}}):
     return_vals.append(fun_handle(doc))
@@ -53,13 +52,25 @@ def _coauthorship_details_map(col, primary_author, fun_handle):
   return return_vals
 
 def _publication_factor(doc):
+  """
+  Given a document, return the time factor scaled by the publication type's alpha. The end goal is:
+
+  Given an author, return the the publication factor for each of his/her publications, scale them by the appropriate alpha, and sum them up.
+  """
   date = doc['mdate']
   doc_type = doc['type']
   return _time_factor(date)*config.type2weights[doc_type]
-  
+
+def _citation_factor(doc):
+  """
+  Given a document, return the 
+  """
+  pass
+
 def _social_coauthorship_factor(doc):
   """
   Given a document, return the time factor. Passed into the map function and summed, the end goal becomes:
+
   Given an author, return SCF.
   SCF = \sum_{P_i} (#coauthorships in P_i) (scale factor for P_i)
   In this particlar implementation, we partition the space into recent, intermediate, and old.
@@ -73,4 +84,4 @@ if __name__ == '__main__':
 #  print _coauthorship_details(col, "Rajni Goel")
 #  print _coauthorship_details(col, "Massimo Zancanaro")
   print _calculate_totals(_coauthorship_details_map(col, "Massimo Zancanaro", _social_coauthorship_factor))
-  print math.ceil(_calculate_totals(_coauthorship_details_map(col, "Massimo Zancanaro", _publication_factor)))
+  print math.ceil(sum(_authorship_details_map(col, "Massimo Zancanaro", _publication_factor)))
