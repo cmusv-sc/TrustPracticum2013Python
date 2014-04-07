@@ -13,7 +13,7 @@ import sys
 import config
 
 
-
+#Just so code is a bit more readable
 def strip_quotes(s):
   return re.sub('"','',s)
 
