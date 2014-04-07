@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+"""
+Various functions to calculate the trust model parameters.
+"""
 
 __version__='Sp2014'
 
@@ -63,9 +66,10 @@ def _publication_factor(doc):
 
 def _citation_factor(doc):
   """
-  Given a document, return the 
+  Given a document, return the number of citations scaled by the alpha of the publication type.
   """
-  pass
+  doc_type = doc['type']
+  return len(doc['cite'])*config.type2weights[doc_type]
 
 def _social_coauthorship_factor(doc):
   """
@@ -78,6 +82,14 @@ def _social_coauthorship_factor(doc):
   date = doc['mdate']
   return _time_factor(date)
 
+def knowledge_factor(col, author):
+  """
+  Returns P_w K_{dblp, pub} + C_w K_{dblp, cite} + RT_w K_{TW, RT} as described in the technical document. For some reason, the Java code had a ceil throw in, so this has been ported as well.
+  """
+  k_pub = math.ceil(sum(_authorship_details_map(col, author, _publication_factor)))
+  k_cite = sum(_authorship_details_map(col, author, _citation_factor))
+  return config.Pw * k_pub + config.Cw * k_cite
+
 if __name__ == '__main__':
   db = pymongo.MongoClient()[config.DB_NAME]
   col = db[config.COLLECTION_NAME]
@@ -85,3 +97,5 @@ if __name__ == '__main__':
 #  print _coauthorship_details(col, "Massimo Zancanaro")
   print _calculate_totals(_coauthorship_details_map(col, "Massimo Zancanaro", _social_coauthorship_factor))
   print math.ceil(sum(_authorship_details_map(col, "Massimo Zancanaro", _publication_factor)))
+  print sum(_authorship_details_map(col, "Shahram Ghandeharizadeh", _citation_factor))
+  print knowledge_factor(col, "Shahram Ghandeharizadeh")
