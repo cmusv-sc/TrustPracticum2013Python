@@ -71,18 +71,6 @@ def _citation_factor(doc):
   doc_type = doc['type']
   return len(doc['cite'])*config.type2weights[doc_type]
 
-def _social_coauthorship_factor(doc):
-  """
-  REDO: This function doesn't do what it's supposed to do.
-  Given a document, return the time factor. Passed into the map function and summed, the end goal becomes:
-
-  Given an author, return SCF.
-  SCF = \sum_{P_i} (#coauthorships in P_i) (scale factor for P_i)
-  In this particlar implementation, we partition the space into recent, intermediate, and old.
-  """
-  date = doc['mdate']
-  return _time_factor(date)
-
 def knowledge_factor(col, author):
   """
   Returns P_w K_{dblp, pub} + C_w K_{dblp, cite} + RT_w K_{TW, RT} as described in the technical document. For some reason, the Java code had a ceil throw in, so this has been ported as well.
@@ -91,12 +79,31 @@ def knowledge_factor(col, author):
   k_cite = sum(_authorship_details_map(col, author, _citation_factor))
   return config.Pw * k_pub + config.Cw * k_cite
 
+def _coauthorship_factor(doc):
+  """
+  Same thing as publication factor. Placeholder in case we want to make the methods different in the future.
+  """
+  return _publication_factor(doc)
+
+def _combined_coauthorship_factor(col, primary_author):
+  """
+  For every coauthor the primary_author has, scales the coauthorship factor of each coauthor by the knowledge factor and sums up the results.
+  """
+  lst = _coauthorship_details_map(col, primary_author, _coauthorship_factor)
+  combined_coauthorship_val = 0
+  for (coauthor, val) in lst:
+    combined_coauthorship_val = combined_coauthorship_val + knowledge_factor(col, coauthor) * val
+  return combined_coauthorship_val
+
 if __name__ == '__main__':
   db = pymongo.MongoClient()[config.DB_NAME]
   col = db[config.COLLECTION_NAME]
 #  print _coauthorship_details(col, "Rajni Goel")
 #  print _coauthorship_details(col, "Massimo Zancanaro")
-  print _calculate_totals(_coauthorship_details_map(col, "Massimo Zancanaro", _social_coauthorship_factor))
+  print _calculate_totals(_coauthorship_details_map(col, "Massimo Zancanaro", _coauthorship_factor))
   print math.ceil(sum(_authorship_details_map(col, "Massimo Zancanaro", _publication_factor)))
   print sum(_authorship_details_map(col, "Shahram Ghandeharizadeh", _citation_factor))
   print knowledge_factor(col, "Shahram Ghandeharizadeh")
+  print knowledge_factor(col, "Luis Ramos")
+  print _combined_coauthorship_factor(col, "Shahram Ghandeharizadeh")
+  
