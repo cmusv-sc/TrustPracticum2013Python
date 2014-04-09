@@ -6,10 +6,8 @@ import json
 import requests
 import re
 
-HOST_NAME = 'einstein.sv.cmu.edu' # !!!REMEMBER TO CHANGE THIS!!!
-PORT_NUMBER = 9002 # Maybe set this to 9000.
-APPSERVER_URL = 'http://einstein.sv.cmu.edu:9000/addSensorReading'
-
+HOST_NAME = 'localhost' # !!!REMEMBER TO CHANGE THIS!!!
+PORT_NUMBER = 9000 # Maybe set this to 9000.
 
 class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     def do_HEAD(s):
@@ -27,24 +25,6 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         # then s.path equals "/foo/bar/".
         s.wfile.write("<p>You accessed path: %s</p>" % s.path)
         s.wfile.write("</body></html>")
-    def do_POST(self):
-#        form = cgi.FieldStorage(
-#            fp=self.rfile, 
-#            headers=self.headers,
-#            environ={'REQUEST_METHOD':'POST',
-#                     'CONTENT_TYPE':self.headers['Content-Type'],
-#                 })
-        content_len = int(self.headers.getheader('content-length'))
-        post_body = self.rfile.read(content_len)
-        print post_body
-#        post_body = ujson.loads(post_body)
-#        headers = {'Content-Type': 'application/json'}
-#        data_json = ujson.dumps(post_body)
-#        data_json = re.sub('timeStamp','timestamp',data_json)
-
-#        if re.search('23420ca4e4830bee',data_json) is not None:
-#            print data_json
-#            r = requests.post(APPSERVER_URL, data=data_json, headers=headers, timeout=10)
 
 if __name__ == '__main__':
     server_class = BaseHTTPServer.HTTPServer
