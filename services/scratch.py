@@ -18,7 +18,8 @@ def _handle_reputation(s):
     else:
         m = re.search('getReputation/(.+)',s.path)
         name = re.sub('%20',' ',m.groups()[0])
-    s.wfile.write("<p>Total trust for {0}: {1}".format(name,trust.scratch.get_total_trust(name)))
+#    s.wfile.write("<p>Total trust for {0}: {1}".format(name,trust.scratch.get_total_trust(name)))
+    s.wfile.write("{0}".format(trust.scratch.get_total_trust(name)))
 
 class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     def do_HEAD(s):
@@ -31,8 +32,8 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         s.send_response(200)
         s.send_header("Content-type", "text/html")
         s.end_headers()
-        s.wfile.write("<html><head><title>Title goes here.</title></head>")
-        s.wfile.write("<body><p>This is a test.</p>")
+#        s.wfile.write("<html><head><title>Title goes here.</title></head>")
+#        s.wfile.write("<body><p>This is a test.</p>")
         # If someone went to "http://something.somewhere.net/foo/bar/",
         # then s.path equals "/foo/bar/".
         if re.search("getReputation",s.path):
