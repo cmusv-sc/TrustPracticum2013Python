@@ -12,7 +12,7 @@ import sys
 
 import config
 
-def _authorship_details_map(col, primary_author, fun_handle):
+def authorship_details_map(col, primary_author, fun_handle):
   """
   Map a function fun_handle over each document that primary_author authored. 
   """
