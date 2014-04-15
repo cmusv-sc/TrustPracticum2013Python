@@ -33,6 +33,9 @@ def jaccard_similarity(col, author1, author2):
   s2 = set(_flatten_list(authorship_details_map(col, author2, _get_jaccard_info)))
   return float(len(s1.intersection(s2)))/len(s1.union(s2))
 
+def get_coauthor_distance_before_year(col, primary_author, year):
+  pass
+
 if __name__ == '__main__':
   db = pymongo.MongoClient()[config.DB_NAME]
   col = db[config.COLLECTION_NAME]
