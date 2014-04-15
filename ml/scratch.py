@@ -16,10 +16,14 @@ def _get_jaccard_info(doc):
   Returns a list containing [author_1,.., author_n, journal]. If journal doesn't exist, returns [author_1, ..., author_n]
   """
   return_val = []
-  for author in doc['author']:
-    return_val.append(author)
+  authors = doc['author']
+  if isinstance(authors, list):
+    for author in doc['author']:
+      return_val.append(author)
+  else:
+    return_val.append(authors)
   if 'journal' in doc:
-    return_val.append(doc['journal'][0])
+    return_val.append(doc['journal'])
   return return_val
 
 def _flatten_list(lst):
@@ -41,10 +45,10 @@ if __name__ == '__main__':
   col = db[config.COLLECTION_NAME]
   s1 = set(_flatten_list(authorship_details_map(col, 'Luis Ramos', _get_jaccard_info)))
   s2 = set(_flatten_list(authorship_details_map(col, 'Shahram Ghandeharizadeh', _get_jaccard_info)))
-#  print s1.union(s2)
-#  print s1.intersection(s2)
-#  print jaccard_similarity(col, 'Luis Ramos', 'Shahram Ghandeharizadeh')
-  print authorship_details_map_before_year(col, 'Luis Ramos', lambda(x): x, 2000)
+  print s1.union(s2)
+  print s1.intersection(s2)
+  print jaccard_similarity(col, 'Luis Ramos', 'Shahram Ghandeharizadeh')
+#  print authorship_details_map_before_year(col, 'Luis Ramos', lambda(x): x, 2000)
   #db.documents.find('this.year < 1999 && this.author.indexOf("Luis Ramos") > -1')
   
 
