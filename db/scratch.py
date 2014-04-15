@@ -21,6 +21,15 @@ def authorship_details_map(col, primary_author, fun_handle):
     return_vals.append(fun_handle(doc))
   return return_vals
 
+def authorship_details_map_before_year(col, primary_author, fun_handle, year):
+  """
+  Map a function fun_handle over each document that primary_author authored before year.
+  """
+  return_vals = []
+  for doc in col.find({'author': {"$in": [primary_author]}, 'year' : {"$lt": str(year)}}):
+    return_vals.append(fun_handle(doc))
+  return return_vals
+
 #Just so code is a bit more readable
 def strip_quotes(s):
   return re.sub('"','',s)
