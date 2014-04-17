@@ -30,6 +30,19 @@ def authorship_details_map_before_year(col, primary_author, fun_handle, year):
     return_vals.append(fun_handle(doc))
   return return_vals
 
+def coauthorship_details_map_before_year(col, primary_author, fun_handle, year):
+  """
+  Map a function fun_handle over each author in each document that primary_author authored before year. Returns a list of tuples (coauthor, return value of fun_handle(coauthor)).
+  """
+  return_vals = []
+  for doc in col.find({'author': {"$in": [primary_author]}, 'year' : {"$lt": str(year)}}):
+    authors = doc['author']
+    if isinstance(authors, list):
+      for author in authors:
+        if author != primary_author:
+          return_vals.append((author, fun_handle(doc)))
+  return return_vals
+
 #Just so code is a bit more readable
 def strip_quotes(s):
   return re.sub('"','',s)
