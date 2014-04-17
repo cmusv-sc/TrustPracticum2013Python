@@ -43,6 +43,17 @@ def coauthorship_details_map_before_year(col, primary_author, fun_handle, year):
           return_vals.append((author, fun_handle(doc)))
   return return_vals
 
+def num_coauthors_in_range(col, primary_author, start=1800, end=2014):
+  author_list = []
+  for doc in col.find({'author': {"$in": [primary_author]}, 'year' : {"$lt": str(end), "$gt": str(start)}}):
+    authors = doc['author']
+    if isinstance(authors, list):
+      author_list.extend(authors)
+    else:
+      author_list.append(authors)
+  author_list = set(author_list)
+  return len(author_list) - 1
+
 #Just so code is a bit more readable
 def strip_quotes(s):
   return re.sub('"','',s)
