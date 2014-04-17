@@ -102,7 +102,6 @@ def _combined_coauthorship_factor(col, primary_author, year=None):
   else:
     lst = coauthorship_details_map_before_year(col, primary_author, _coauthorship_factor, year)
   combined_coauthorship_val = 0
-  print len(lst)
   for (coauthor, val) in lst:
     combined_coauthorship_val = combined_coauthorship_val + knowledge_factor(col, coauthor) * val
   return combined_coauthorship_val
