@@ -116,5 +116,6 @@ if __name__ == '__main__':
 #  print sum(_authorship_details_map(col, "Shahram Ghandeharizadeh", _citation_factor))
 #  print knowledge_factor(col, "Shahram Ghandeharizadeh", 2014)
 #  print knowledge_factor(col, "Luis Ramos", 2014)
-  print _combined_coauthorship_factor(col, "Shahram Ghandeharizadeh")
+#  print _combined_coauthorship_factor(col, "Shahram Ghandeharizadeh")
+  print num_coauthors_in_range(col, "Shahram Ghandeharizadeh", 1800, 2014)
   
