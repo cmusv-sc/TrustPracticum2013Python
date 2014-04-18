@@ -93,7 +93,7 @@ def _coauthorship_factor(doc):
   """
   return _publication_factor(doc)
 
-def _combined_coauthorship_factor(col, primary_author, year=None):
+def combined_coauthorship_factor(col, primary_author, year=None):
   """
   For every coauthor the primary_author has, scales the coauthorship factor of each coauthor by the knowledge factor and sums up the results.
   """
@@ -106,6 +106,9 @@ def _combined_coauthorship_factor(col, primary_author, year=None):
     combined_coauthorship_val = combined_coauthorship_val + knowledge_factor(col, coauthor) * val
   return combined_coauthorship_val
 
+def trust_value(col, primary_author, year=None):
+  return knowledge_factor(col, primary_author, year) + combined_coauthorship_factor(col, primary_author, year)
+
 if __name__ == '__main__':
   db = pymongo.MongoClient()[config.DB_NAME]
   col = db[config.COLLECTION_NAME]
@@ -116,6 +119,6 @@ if __name__ == '__main__':
 #  print sum(_authorship_details_map(col, "Shahram Ghandeharizadeh", _citation_factor))
 #  print knowledge_factor(col, "Shahram Ghandeharizadeh", 2014)
 #  print knowledge_factor(col, "Luis Ramos", 2014)
-#  print _combined_coauthorship_factor(col, "Shahram Ghandeharizadeh")
+#  print combined_coauthorship_factor(col, "Shahram Ghandeharizadeh")
   print num_coauthors_in_range(col, "Shahram Ghandeharizadeh", 1800, 2014)
   
