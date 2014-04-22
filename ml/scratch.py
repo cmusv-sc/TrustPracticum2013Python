@@ -119,7 +119,8 @@ if __name__ == '__main__':
 #  print get_coauthor_distance_before_year(col, 'Luis Ramos', 'David J. DeWitt', 2013)
 # Should return 999
 #  print get_coauthor_distance_before_year(col, 'Luis Ramos', 'qqqqqqqqqqq', 2013)
-  print write_line_for_authors(col, 'Luis Ramos', 'Shahram Ghandeharizadeh', 2000)
+  #print write_line_for_authors(col, 'Luis Ramos', 'Shahram Ghandeharizadeh', 2000)
+  print write_line_for_authors(col, 'Luis Ramos', 'Luis Ramos', 2000)
 
   
 
