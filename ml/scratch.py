@@ -19,12 +19,15 @@ def _get_jaccard_info(doc):
   return_val = []
   authors = doc['author']
   if isinstance(authors, list):
-    for author in doc['author']:
-      return_val.append(author)
+    return_val.extend(authors)
   else:
     return_val.append(authors)
   if 'journal' in doc:
-    return_val.append(doc['journal'])
+    journals = doc['journal']
+    if isinstance(journals, list):
+      return_val.extend(journals)
+    else:
+      return_val.append(journals)
   return return_val
 
 def _flatten_list(lst):
@@ -36,8 +39,11 @@ def jaccard_similarity(col, author1, author2):
   """
   s1 = set(_flatten_list(authorship_details_map(col, author1, _get_jaccard_info)))
   s2 = set(_flatten_list(authorship_details_map(col, author2, _get_jaccard_info)))
-  return float(len(s1.intersection(s2)))/len(s1.union(s2))
-
+  try:
+    return float(len(s1.intersection(s2)))/len(s1.union(s2))
+  except:
+    return 0
+  
 def get_coauthor_distance_before_year(col, primary_author, coauthor, year):
   for doc in col.find({'author': {"$in": [primary_author]}, 'year' : {"$lt": str(year)}}):
     if coauthor in doc['author']:
