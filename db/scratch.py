@@ -45,7 +45,7 @@ def coauthorship_details_map_before_year(col, primary_author, fun_handle, year):
 
 def num_coauthors_in_range(col, primary_author, start=1800, end=2014):
   author_list = []
-  for doc in col.find({'author': {"$in": [primary_author]}, 'year' : {"$lt": str(end), "$gt": str(start)}}):
+  for doc in col.find({'author': {"$in": [primary_author]}, 'year' : {"$lt": end, "$gt": start}}):
     authors = doc['author']
     if isinstance(authors, list):
       author_list.extend(authors)
