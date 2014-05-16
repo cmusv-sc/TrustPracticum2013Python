@@ -99,6 +99,9 @@ if __name__ == '__main__':
               doc[tag_name] = prev_info
             else:
               doc[tag_name] = [prev_info, tag_info]
+          elif tag_name == 'year':
+            tag_info = int(tag_info)
+            doc[tag_name] = tag_info
           else:
             doc[tag_name] = strip_quotes(tag_info)
         else:
