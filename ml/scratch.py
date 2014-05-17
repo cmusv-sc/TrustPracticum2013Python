@@ -45,7 +45,7 @@ def jaccard_similarity(col, author1, author2):
     return 0
   
 def get_coauthor_distance_before_year(col, primary_author, coauthor, year):
-  for doc in col.find({'author': {"$in": [primary_author]}, 'year' : {"$lt": year}}):
+  for doc in col.find({'author': {'$in': [primary_author]}, 'year' : {'$lt': 2014}}):
     if coauthor in doc['author']:
       return 1
   for doc in col.find({'author': {"$in": [primary_author]}, 'year' : {"$lt": year}}):
@@ -62,6 +62,9 @@ def write_line_for_authors(col, author1, author2, year):
   """
   Decides whether each feature falls into H, M, or L regions for given authors. Returns results separated by commas.
   """
+  year = int(year)
+  author1 = author1.strip()
+  author2 = author2.strip()
   coauthor_distance = get_coauthor_distance_before_year(col, author1, author2, year)
   trust_value_difference = trust.trust_value(col, author1, year) - trust.trust_value(col, author1, year)
   jaccard_val = jaccard_similarity(col, author1, author2)
