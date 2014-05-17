@@ -35,7 +35,7 @@ class NBModel:
                    
                file = open(self.trainingFile, 'r')               
                for line in file:
-                    self.featureVectors.append(line.lower().split('\t'))             #Set up feature vectors
+                    self.featureVectors.append(line.lower().split(','))             #Set up feature vectors
                file.close
                #print len(self.featureVectors)
         #Train the naive bayes classifier based on data      
@@ -73,7 +73,7 @@ class NBModel:
                 file = open(self.testFile, 'r')
                 for line in file:   #Initialize all parameters needed including feature vector
                     self.outputFile.write("-----------------------------------" + "\n")
-                    vector = line.strip().lower().split('\t')                                
+                    vector = line.strip().lower().split(',')                                
                     self.outputFile.write("Similarity of research areas: " + str(vector[0])+ "\n")
                     self.outputFile.write("Similarity of author reputation: " + str(vector[1]) + "\n")
                     self.outputFile.write("Author connectedness: " + str(vector[2])+ "\n") 
