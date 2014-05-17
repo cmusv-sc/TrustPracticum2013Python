@@ -45,15 +45,15 @@ def jaccard_similarity(col, author1, author2):
     return 0
   
 def get_coauthor_distance_before_year(col, primary_author, coauthor, year):
-  for doc in col.find({'author': {"$in": [primary_author]}, 'year' : {"$lt": str(year)}}):
+  for doc in col.find({'author': {"$in": [primary_author]}, 'year' : {"$lt": year}}):
     if coauthor in doc['author']:
       return 1
-  for doc in col.find({'author': {"$in": [primary_author]}, 'year' : {"$lt": str(year)}}):
+  for doc in col.find({'author': {"$in": [primary_author]}, 'year' : {"$lt": year}}):
     author_list = doc['author']
     if not isinstance(author_list, list):
       author_list = [author_list]
     for author in author_list:
-      for doc2 in col.find({'author': {"$in": [author]}, 'year' : {"$lt": str(year)}}):
+      for doc2 in col.find({'author': {"$in": [author]}, 'year' : {"$lt": year}}):
         if coauthor in doc2['author']:
           return 2
   return 999
