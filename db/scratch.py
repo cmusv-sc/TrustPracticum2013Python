@@ -26,7 +26,7 @@ def authorship_details_map_before_year(col, primary_author, fun_handle, year):
   Map a function fun_handle over each document that primary_author authored before year.
   """
   return_vals = []
-  for doc in col.find({'author': {"$in": [primary_author]}, 'year' : {"$lt": str(year)}}):
+  for doc in col.find({'author': {"$in": [primary_author]}, 'year' : {"$lt": year}}):
     return_vals.append(fun_handle(doc))
   return return_vals
 
@@ -35,7 +35,7 @@ def coauthorship_details_map_before_year(col, primary_author, fun_handle, year):
   Map a function fun_handle over each author in each document that primary_author authored before year. Returns a list of tuples (coauthor, return value of fun_handle(coauthor)).
   """
   return_vals = []
-  for doc in col.find({'author': {"$in": [primary_author]}, 'year' : {"$lt": str(year)}}):
+  for doc in col.find({'author': {"$in": [primary_author]}, 'year' : {"$lt": year}}):
     authors = doc['author']
     if isinstance(authors, list):
       for author in authors:
