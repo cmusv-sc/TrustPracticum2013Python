@@ -64,7 +64,7 @@ class NBModel:
                         probabilityPerLabel[label] = pProbability * math.exp(logProb) # Get the real probablity value from log value
                         #self.outputFile.write( "Prior probability for class "+ label+ ": " + str(pProbability) + "\n")
                         totalProbability += probabilityPerLabel[label]
-                #self.outputFile.write("TP:" + " " + str(totalProbability) + "\n") 
+                #self.outputFile.write("TP:" + " " + str(totalProbability) + "\n")
                 self.outputFile.write("Likelihood for Yes or No:" + " " + str(probabilityPerLabel) + "\n")  
                 self.outputFile.write("Probability of collaboration:" + " " + (str(100*probabilityPerLabel["y"]/totalProbability)) + "%" + "\n")             
                 return max(probabilityPerLabel, key = lambda classLabel: probabilityPerLabel[classLabel]) #Entry that has the highest probability
